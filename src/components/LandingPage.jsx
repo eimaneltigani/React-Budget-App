@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SignIn from './SignIn';
+import Income from './Income';
 
 class LandingPage extends React.Component {
     render() {
@@ -13,7 +13,7 @@ class LandingPage extends React.Component {
                     </div>
                     <div className="sign-up">
                         <p>Sign in to save</p>
-                        <Link to="/SignIn">
+                        <Link to="/Login">
                             <button type="button">
                                 Sign up
                             </button>
@@ -22,8 +22,15 @@ class LandingPage extends React.Component {
                 </div>
                 <div className="left-col">
                     <div className="app-desc">
-                        <h4>Own your money</h4>
-                        <p>Spend, save, and give toward what's important in life</p>
+                        <h2>Own your money</h2>
+                        <p>This virtual budget program keeps you on track of yours spending habits. Spend, save, and give toward what's important in life. </p>
+                    </div>
+                    <div className="user-income">
+                        <h3> Annual Income</h3>
+                        <Income />
+                    </div>
+                    <div className="monthly-expenses">
+                        
                     </div>
                 </div>
             </div>

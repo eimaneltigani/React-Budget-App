@@ -1,12 +1,12 @@
 import React from 'react';
-import REACTDOM from 'react-dom';
 import {
     BrowserRouter as Router,
     Routes,
     Route
 } from 'react-router-dom';
 import LandingPage from './LandingPage';
-import SignIn from './SignIn';
+import Login from './Login';
+import Register from './Register';
 
 class MyRouters extends React.Component {
     render() {
@@ -14,7 +14,8 @@ class MyRouters extends React.Component {
             <Router>
                 <Routes>
                     <Route name="LandingPage" exact path="/" element={<LandingPage />}/>
-                    <Route name="SignIn" exact path="/SignIn" element={<SignIn />}/>
+                    <Route name="Login" exact path="/Login" element={<Login />}/>
+                    <Route name="Register" exact path="/Register" element={<Register />}/>
                 </Routes>
             </Router>
         )

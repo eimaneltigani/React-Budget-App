@@ -2,11 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import MyRouters from './components/MyRouters';
 import reportWebVitals from './reportWebVitals';
+import { Firebase } from './config/fire';
+import { Provider } from 'react-redux';
+import store from './redux/configureStore';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <MyRouters/>
+    <Provider store={store}>
+      <MyRouters/>
+    </Provider>
   </React.StrictMode>
 );
 
