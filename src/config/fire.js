@@ -17,10 +17,8 @@ const config = {
 };
 
 // Initialize Firebase
-const Firebase = initializeApp(config);
+initializeApp(config);
 // Initialize variables
-const auth = getAuth();
-const database = getDatabase();
+export const auth = getAuth();
+export const db = getDatabase();
 
-
-export {auth, database, Firebase};

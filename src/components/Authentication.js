@@ -1,35 +1,49 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout, selectUser } from '../redux/store/userSlice';
 import { auth } from '../config/fire';
-import { authUserSet } from '../redux/ducks/authReducer'
+import { onAuthStateChanged } from '@firebase/auth';
 
-class Authentication extends React.Component {
-    state = {
-        user: 1,
-        loading: true
-    }
+import Dashboard from './Dashboard';
+import Login from './Login';
 
-    componentDidMount() {
-        this.authListener();
-    }
-
-    authListener() {
-        auth.onAuthStateChanged((authUser) => {
-            if (authUser) {
-                onSetAuthUser(authUser);
-            } else {
-                onSetAuthUser(null);
-            }
-        })
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onSetAuthUser: (authUser) => {
-            dispatch(authUserSet(authUser))
+function Authentication() {
+    const user = useSelector(selectUser);
+    const dispatch = useDispatch();
+  
+    // check at page load if a user is authenticated
+    useEffect(() => {
+      onAuthStateChanged(auth, userAuth => {
+        if (userAuth) {
+          dispatch(
+            login({
+              email: userAuth.email,
+              uid: userAuth.uid,
+              displayName: userAuth.displayName,
+              photoUrl: userAuth.photoURL,
+            })
+          );
+        } else {
+            dispatch(logout());
         }
-    }
-}
+      });
+      console.log('page loaded');
+    }, [dispatch]);
 
-export default connect(mapDispatchToProps)(Authentication);
+    return (
+        <div>
+            {console.log(user)}
+            {!user ? (
+                <Login />
+            ) : (
+                <div>
+                    <h1>Hello {user.displayName}</h1>
+                    <Dashboard />
+                </div>
+            )}
+        </div>
+    );
+}
+  
+
+export default Authentication;

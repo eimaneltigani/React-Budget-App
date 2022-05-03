@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import MyRouters from './components/MyRouters';
 import reportWebVitals from './reportWebVitals';
-import { Firebase } from './config/fire';
+
+// Redux store
 import { Provider } from 'react-redux';
-import store from './redux/configureStore';
+import { store } from './redux/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
