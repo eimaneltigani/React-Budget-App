@@ -23,7 +23,8 @@ function Authentication() {
               photoUrl: userAuth.photoURL,
             })
           );
-        } else {
+        } 
+        else {
             dispatch(logout());
         }
       });
@@ -37,7 +38,7 @@ function Authentication() {
                 <Login />
             ) : (
                 <div>
-                    <h1>Hello {user.displayName}</h1>
+                    <h1>Hello, {user.displayName}</h1>
                     <Dashboard />
                 </div>
             )}
