@@ -15,6 +15,7 @@ function Authentication() {
     useEffect(() => {
       onAuthStateChanged(auth, userAuth => {
         if (userAuth) {
+          // If authenticated, dispatch user information for persistance in redux state
           dispatch(
             login({
               email: userAuth.email,

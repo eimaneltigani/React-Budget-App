@@ -1,0 +1,25 @@
+body {
+    background:#425F9C;
+}
+
+.main {
+    color: white;
+    display: flex;
+}
+
+.left-col {
+    float: left;
+    width: 50%;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.right-col {
+    float: right;
+    width: 50%;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+
+

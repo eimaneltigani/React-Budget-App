@@ -1,0 +1,47 @@
+.expense-desc, .expense-category, .expense-cost {
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: white;
+    color: #3c4043;
+    padding: 8px;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+li {
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+    margin-left: -0.5em;
+    margin-right: -0.5em;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+.expense-desc {
+    width: 52%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.expense-category {
+    width: 24%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.expense-cost {
+    width: 16%;
+}
+
+.remove {
+    width: 8%;
+}
+
+button {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    overflow: hidden;
+    outline: none;
+    color: white;
+}

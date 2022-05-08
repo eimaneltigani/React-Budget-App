@@ -5,14 +5,15 @@ import { auth } from '../config/fire';
 import { logout, selectUser } from '../redux/store/userSlice'
 import { FaSignOutAlt } from 'react-icons/fa';
 import { signOut } from '@firebase/auth';
+import '../css/Header.css';
 
 
 function NavigationNonAuth() {
     return (
         <div className="sign-up">
-            <p>Sign in to save</p>
+            <p className="header-text">Sign in to save</p>
             <Link to="/Login">
-                <button type="button">
+                <button className="header-button">
                     Sign up
                 </button>
             </Link>
@@ -27,9 +28,10 @@ function NavigationAuth() {
         dispatch(logout());
         signOut(auth);
     }
+
     return (        
         <div className="sign-out">
-            <button onClick={logoutOfApp}>
+            <button className="header-button" onClick={logoutOfApp}>
                 <FaSignOutAlt />
                 <span>Logout</span>
             </button>
@@ -42,17 +44,17 @@ const Header = () => {
     const user = useSelector(selectUser);
 
     return (
-        <header>
+        <div className="header">
             <div className="logo">
-                <img></img>
-                <p className="title">Budgeter App</p>
+                <img src='https://logodix.com/logo/1299984.png' width="40px" height="40px"></img>
+                <p className="title">Budgeter<span className="app">App</span></p>
             </div>
             {!user ? (
                 <NavigationNonAuth />
             ) : (
                 <NavigationAuth />
             )}
-        </header>
+        </div>
     )
 }
 
