@@ -1,14 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { auth } from '../config/fire';
-import { logout, selectUser } from '../redux/store/userSlice'
+import { logout, selectUser } from '../Redux/store/userSlice'
 import { FaSignOutAlt } from 'react-icons/fa';
-import { signOut } from '@firebase/auth';
+import { withFirebase } from './Firebase';
+
 import '../css/Header.css';
 
-
-function NavigationNonAuth() {
+const NavigationNonAuth = () => {
     return (
         <div className="sign-up">
             <p className="header-text">Sign in to save</p>
@@ -21,12 +20,13 @@ function NavigationNonAuth() {
     ) 
 }
 
-function NavigationAuth() {
+const NavigationAuth = ({ firebase }) => {
+    // const firebase = useFirebase();
     const dispatch = useDispatch();
 
     const logoutOfApp = () => {
         dispatch(logout());
-        signOut(auth);
+        firebase.doSignOut();
     }
 
     return (        
@@ -39,7 +39,7 @@ function NavigationAuth() {
     )
 }
 
-const Header = () => {
+const Header = ({ firebase }) => {
     
     const user = useSelector(selectUser);
 
@@ -52,11 +52,11 @@ const Header = () => {
             {!user ? (
                 <NavigationNonAuth />
             ) : (
-                <NavigationAuth />
+                <NavigationAuth firebase={firebase} />
             )}
         </div>
     )
 }
 
 
-export default Header;
+export default withFirebase(Header);

@@ -3,8 +3,22 @@ import '../css/LandingPage.css'
 import Income from './Income';
 import Header from './Header';
 import Expenses from './Expenses';
+import { connect } from 'react-redux';
+import { handleFirebaseData } from '../Services/handleData';
+import { withFirebase } from 'react-redux-firebase';
+import withAuthentication from './Session/withAuthentication';
 
 class LandingPage extends React.Component {
+    // componentDidMount() {
+    //     const {authUser, 
+    //         firebase, 
+    //         onHandleFirebaseData, 
+    //         onHandleSampleData 
+    //     } = this.props;
+
+    //     authUser ? onHandleFirebaseData(authUser.uid, firebase) : onHandleSampleData(firebase);
+    // }
+
     render() {
         return(
             <div>
@@ -39,4 +53,17 @@ class LandingPage extends React.Component {
     }
 }
 
-export default LandingPage;
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        onHandleFirebaseData: (uid, firebase) => 
+            {dispatch(handleFirebaseData(uid, firebase))},
+        // onHandleSampleData: (firebase) => dispatch(handleDefaultData(firebase))
+    }
+}
+
+const mapStateToProps = ( state ) => {
+    return {authUser: state.user}
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withFirebase(withAuthentication(LandingPage)));

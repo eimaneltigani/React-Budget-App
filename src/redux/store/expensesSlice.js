@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import defaultExpenses from "../../components/defaultExpenses";
+import { defaultExpenses } from "../../components/defaultExpenses";
+import { PayloadAction } from "@reduxjs/toolkit";
+
+
+// export const setExpensesError = createAction('setExpensesError');
+// export const newExpenseError = createAction('newExpenseError');
+// export const editExpenseError = createAction('editExpenseError');
+// export const deleteExpenseError = createAction('deleteExpenseError');
+
 
 export const expensesSlice = createSlice({
     name: 'expenses',
@@ -7,30 +15,36 @@ export const expensesSlice = createSlice({
         expenses: defaultExpenses,
     },
     reducers: {
-        setExpenses: (state, action) => {
-            return { ...state, expenses: [...action.payload]};
+        recieveExpenses: (state, action) => {
+            return {...state, expenses: [action.payload]};
         },
         addExpense: (state, action) => {
-            return { ...state, expenses: [...action.payload, ...state.expenses]};
+            return { ...state, expenses: [...state.expenses, action.payload]};
         },
-        editExpense: (state, action) => {
-            const expenses = state.expenses.map(expense => {
-                if (expense.id === action.payload.id) {
-                    expense = action.payload
+        editExpense: {
+            reducer: (state, action) => {
+                const { key, value } = action.payload;
+                const expenses = state.expenses.map(expense =>{
+                    if (expense.key !== key) return expense
+                    return {...expense, ...value}
+                })
+                return {...state, expenses: [...expenses]}
+            },
+            prepare: (key, value) => {
+                return {
+                    payload: {key, value}
                 }
-                return expense;
-            });
-            return {...state, expenses: [...expenses]};
+            }
         },
         deleteExpense: (state, action) => {
-            const expenses = state.expenses.filter(expense => 
-                expense.id !== action.payload.id);
+            const expenses = state.expenses.filter(expense =>
+                expense.key !== action.payload)
             return {...state, expenses: [...expenses]};
         },
     } 
 })
 
-export const { setExpenses, addExpense, editExpense, deleteExpense } = expensesSlice.actions;
+export const { recieveExpenses, addExpense, editExpense, deleteExpense } = expensesSlice.actions;
 
 //Selector
 export const selectExpenses = (state) => state.expenses.expenses;

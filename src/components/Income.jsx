@@ -1,9 +1,17 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import { useDispatch } from 'react-redux';
+import { updateIncome, resetIncome } from '../Redux/store/incomeSlice';
+import { withFirebase } from './Firebase';
 import '../css/Income.css'
 
 
-const Income = ({ onChange }) => {
-    const [value, setValue] = useState(0);
+const Income = () => {
+    const [value, setValue] = useState(65000);
+    const dispatch = useDispatch();
+
+    const handleUpdate = (key, value) => {
+        dispatch(updateIncome);
+    }
 
     return (
         <form>
@@ -11,7 +19,7 @@ const Income = ({ onChange }) => {
                 <label>You</label>
                 <input 
                     type="range" 
-                    defaultValue="0" 
+                    defaultValue={65000} 
                     min="0" 
                     max="300000" 
                     value={value}
@@ -24,11 +32,12 @@ const Income = ({ onChange }) => {
                 <label>Income</label>
                 <input 
                     type="number" 
-                    defaultValue="0" 
                     min="0" 
                     max="300000" 
                     className="input"
                     value={value}
+                    step="500" 
+                    onChange={(e) => setValue(e.target.value)}
                 />
             </div>
             
@@ -36,4 +45,4 @@ const Income = ({ onChange }) => {
     );
 }
 
-export default Income;
+export default withFirebase(Income);

@@ -1,9 +1,11 @@
 import React from "react";
 import '../css/Login.css';
-import { login } from "../redux/store/userSlice";
+import { login } from "../Redux/store/userSlice";
 import { connect } from 'react-redux';
-import { auth } from '../config/fire';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { withFirebase } from "./Firebase";
+import { updateProfile } from "@firebase/auth";
+import { withRouter } from "./withRouter";
+
 
 class Login extends React.Component {
     constructor(props) {
@@ -15,7 +17,7 @@ class Login extends React.Component {
             profilePic: '',
             fireErrors: '',
             redirect: false
-        }
+        };
     }
 
     handleChange = e => {
@@ -28,38 +30,44 @@ class Login extends React.Component {
         }))
     }
 
-
     login = () => {
         this.props.login();
     }
 
     loginToApp = (e) => {
-        e.preventDefault();
+        const { email, password } = this.state
 
-        signInWithEmailAndPassword(auth, this.state.email, this.state.password)
-        .catch((error) => {
-            this.setState({fireErrors: error.message})
+        this.props.firebase
+            .doSignInWithEmailAndPassword(email, password)
+                .then(() => {
+                    this.props.navigate('/Dashboard')
+                })
+            .catch((error) => {
+                this.setState({fireErrors: error.message});
         });
+
+        e.preventDefault();
     };
 
 
     register = (e) => {
+        const { email, password } = this.state
         e.preventDefault();
         console.log('register the user');
 
-        createUserWithEmailAndPassword(auth, this.state.email,this.state.password)
+        this.props.firebase
+            .doCreateUserWithEmailAndPassword(email, password)
             .then((userAuth) => {
                 updateProfile(userAuth.user, {
                     displayName: this.state.displayName,
                     photoURL: this.state.profilePic
-                })
+                });
+                this.props.navigate('/Dashboard')
             })
         .catch((error) => {
             this.setState({fireErrors: error.message})
         });
     };
-
-    
     
     render () {
         let errorNotification = this.state.fireErrors ? 
@@ -89,14 +97,14 @@ class Login extends React.Component {
                             onChange={this.handleChange}
                             name="password"/>
                         {this.state.redirect ? (
-                            <div>
+                            <React.Fragment>
                                 <input type="submit" className="submitBtn" onClick={this.loginToApp} value="ENTER" />
                                 <span className="underLine">
                                     Not Registered?  <button className="linkBtn" onClick={this.handleClick}>Create an account</button>
                                 </span>    
-                            </div>
+                            </React.Fragment>
                         ) : (
-                            <div>
+                            <React.Fragment>
                                 <input type="text"
                                     className="regField"
                                     placeholder="Profile picture URL (optional)"
@@ -107,18 +115,13 @@ class Login extends React.Component {
                                 <span className="underLine">
                                     Have an account? <button className="linkBtn" onClick={this.handleClick}>Sign in here</button>
                                 </span>
-                            </div>   
-                        )}    
+                            </React.Fragment>   
+                        )}     
                     </form>  
                 </div>
             </>
         )
     }
-}
-
-
-const mapStateToProps = (state) => {
-    return {state}
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -127,4 +130,8 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapDispatchToProps,mapStateToProps)(Login)
+const mapStateToProps = (state) => {
+    return {state}
+}
+
+export default connect(mapDispatchToProps,mapStateToProps)(withRouter(withFirebase(Login)));

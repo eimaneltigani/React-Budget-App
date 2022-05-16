@@ -1,45 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../css/Expenses.css'
+// import { connect } from 'react-redux';
+import { addExpense, editExpense, deleteExpense, selectExpenses } from '../Redux/store/expensesSlice';
+import { FaRegTrashAlt, FaPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { addExpense, updateExpense, deleteExpense, setExpenses, selectExpenses } from '../redux/store/expensesSlice';
-import { FaRegTrashAlt, FaPlus } from 'react-icons/fa'
+import { withFirebase } from './Firebase';
+
 
 function Expenses() {
-    const dispatch = useDispatch();
     const expenses = useSelector(selectExpenses);
+    const dispatch = useDispatch();
 
-    // const handleAdd = () => {
+    const handleAdd = () => {
+        const key = expenses.length;
+        dispatch(addExpense(key));
+    }
 
-    // }
+    const handleEdit = (key, e) => {
+        dispatch(editExpense( key, {
+            [e.target.name]: e.target.value
+        }));
+    };
 
-    // const handleUpdate = () => {
-        
-    // }
-
-    // const handleDelete = (id) => {
-    //     dispatch(deleteExpense(id));
-    // }
+    const handleDelete = (key) => {
+        dispatch(deleteExpense(key));
+    };
 
     return (
         <div className="expenseList">
             <h3> Monthly Expenses </h3>
             {expenses.map(expense => {
                 return(
-                    <li className="expense-item" key= {expense.id}>
-                        <div className="expense-desc">{expense.description}</div>
-                        <div className="expense-category">{expense.category}</div>
-                        <div className="expense-cost">{expense.cost}</div>
+                    <li className="expense-item" key={expense.key}>
+                        <input type="text" className="description" name="description" defaultValue={expense.description} onChange={e => handleEdit(expense.key, e)}></input>
+                        <input type="text" className="category" name="category" defaultValue={expense.category} onChange={e => handleEdit(expense.key, e)}></input>
+                        <input type="number" className="cost" name="cost" defaultValue={expense.cost} onChange={e => handleEdit(expense.key, e)}></input>
                         <div className="remove">
-                            <button onClick={() => deleteExpense(dispatch, expense)}><FaRegTrashAlt /></button>
+                            <button onClick={() => handleDelete(expense.key)}><FaRegTrashAlt /></button>
                         </div> 
-                        {console.log(expense)}
                     </li>
                 )
             })}
             {console.log(expenses)}
-            <button ><FaPlus/>Add expense</button>
+            <button onClick={() => handleAdd()}><FaPlus/>Add expense</button>
         </div>
     )
 }
 
-export default Expenses;
+
+// const mapDispatchToProps = (dispatch) => {
+//     return{
+//         login: () => {dispatch(login())}
+//     }
+// }
+
+// const mapStateToProps = (state) => {
+//     return {
+//         expenses: state.expenses
+//     }
+// }
+
+export default withFirebase(Expenses);

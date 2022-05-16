@@ -1,17 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import MyRouters from './components/MyRouters';
-import reportWebVitals from './reportWebVitals';
+import App from './components/App';
 
 // Redux store
 import { Provider } from 'react-redux';
-import { store } from './redux/store';
+import { store } from './Redux/store';
+
+// Import firebase instance and context
+import Firebase, { FirebaseContext } from './components/Firebase';
+import reportWebVitals from './reportWebVitals';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <MyRouters/>
+        <FirebaseContext.Provider value={new Firebase()}>
+          <App />
+        </FirebaseContext.Provider>
     </Provider>
   </React.StrictMode>
 );

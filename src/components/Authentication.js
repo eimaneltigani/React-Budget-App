@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, logout, selectUser } from '../redux/store/userSlice';
-import { auth } from '../config/fire';
+import { login, logout, selectUser } from '../Redux/store/userSlice';
+import { auth } from '../Firebase/firebase';
 import { onAuthStateChanged } from '@firebase/auth';
 
 import Dashboard from './Dashboard';
@@ -15,7 +15,7 @@ function Authentication() {
     useEffect(() => {
       onAuthStateChanged(auth, userAuth => {
         if (userAuth) {
-          // If authenticated, dispatch user information for persistance in redux state
+          // Dispatch user information for persistance in redux state
           dispatch(
             login({
               email: userAuth.email,

@@ -1,4 +1,4 @@
-.expense-desc, .expense-category, .expense-cost {
+.description, .category, .cost {
     border-radius: 5px;
     box-sizing: border-box;
     background-color: white;
@@ -17,19 +17,19 @@ li {
     align-items: center;
 }
 
-.expense-desc {
+.desc {
     width: 52%;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
 
-.expense-category {
+.category {
     width: 24%;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
 
-.expense-cost {
+.cost {
     width: 16%;
 }
 
