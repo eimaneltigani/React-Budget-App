@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { defaultExpenses } from "../../components/defaultExpenses";
+import { defaultExpenses } from "../../components/constants";
 import { PayloadAction } from "@reduxjs/toolkit";
 
 

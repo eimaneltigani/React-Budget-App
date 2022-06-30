@@ -2,9 +2,12 @@ import React from "react";
 import '../css/Login.css';
 import { login } from "../Redux/store/userSlice";
 import { connect } from 'react-redux';
-import { withFirebase } from "./Firebase";
+import { auth } from "./Firebase/firebase";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
+
 import { updateProfile } from "@firebase/auth";
-import { withRouter } from "./withRouter";
+// import { withNavigate } from "./withRouter";
+
 
 
 class Login extends React.Component {
@@ -16,7 +19,8 @@ class Login extends React.Component {
             displayName: '',
             profilePic: '',
             fireErrors: '',
-            redirect: false
+            redirect: false,
+            newAccount: true
         };
     }
 
@@ -37,11 +41,7 @@ class Login extends React.Component {
     loginToApp = (e) => {
         const { email, password } = this.state
 
-        this.props.firebase
-            .doSignInWithEmailAndPassword(email, password)
-                .then(() => {
-                    this.props.navigate('/Dashboard')
-                })
+        signInWithEmailAndPassword(auth, email, password)
             .catch((error) => {
                 this.setState({fireErrors: error.message});
         });
@@ -51,30 +51,31 @@ class Login extends React.Component {
 
 
     register = (e) => {
-        const { email, password } = this.state
-        e.preventDefault();
-        console.log('register the user');
+        const { email, password, displayName, profilePic } = this.state
 
-        this.props.firebase
-            .doCreateUserWithEmailAndPassword(email, password)
+        createUserWithEmailAndPassword(auth, email, password)
             .then((userAuth) => {
                 updateProfile(userAuth.user, {
-                    displayName: this.state.displayName,
-                    photoURL: this.state.profilePic
+                    displayName: displayName,
+                    photoURL: profilePic
                 });
-                this.props.navigate('/Dashboard')
+                console.log(userAuth.user)
             })
         .catch((error) => {
             this.setState({fireErrors: error.message})
         });
+
+        e.preventDefault();
+        console.log('register the user');
     };
     
     render () {
         let errorNotification = this.state.fireErrors ? 
         ( <div className="Error"> {this.state.fireErrors} </div> ) : null;
-
+        let user = this.props.user
         return (
             <>
+                {console.log(user)}
                 {errorNotification}
                 <div className="mainBlock">
                     <form>
@@ -134,4 +135,4 @@ const mapStateToProps = (state) => {
     return {state}
 }
 
-export default connect(mapDispatchToProps,mapStateToProps)(withRouter(withFirebase(Login)));
+export default connect(mapDispatchToProps,mapStateToProps)(Login);

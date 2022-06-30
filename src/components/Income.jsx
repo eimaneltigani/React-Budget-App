@@ -1,31 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateIncome, resetIncome } from '../Redux/store/incomeSlice';
-import { withFirebase } from './Firebase';
+import { updateIncome } from '../Redux/store/incomeSlice';
+
 import '../css/Income.css'
 
 
 const Income = () => {
-    const [value, setValue] = useState(65000);
+    const [value, setValue] = useState(5000);
     const dispatch = useDispatch();
 
-    const handleUpdate = (key, value) => {
+    const handleUpdate = (e) => {
+        setValue(e.target.value);
         dispatch(updateIncome);
     }
 
     return (
-        <form>
+        <div className="form">
             <div className="income-slider">
-                <label>You</label>
+                <label>Post-tax Income</label>
                 <input 
                     type="range" 
-                    defaultValue={65000} 
+                    defaultValue={5000} 
                     min="0" 
-                    max="300000" 
+                    max="20000" 
                     value={value}
                     className="slider"
-                    step="500" 
-                    onChange={(e) => setValue(e.target.value)}
+                    step="100" 
+                    onChange={(e) => handleUpdate(e)}
                 />
             </div>
             <div className="income-input">
@@ -33,16 +34,15 @@ const Income = () => {
                 <input 
                     type="number" 
                     min="0" 
-                    max="300000" 
+                    max="20000" 
                     className="input"
                     value={value}
-                    step="500" 
-                    onChange={(e) => setValue(e.target.value)}
+                    step="100" 
+                    onChange={(e) => handleUpdate(e)}
                 />
             </div>
-            
-        </form>
+        </div>
     );
 }
 
-export default withFirebase(Income);
+export default Income;

@@ -2,7 +2,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase, ref, push, child } from "firebase/database";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 
 
 // Your web app's Firebase configuration
@@ -18,27 +17,11 @@ const config = {
     measurementId: "G-6KC97GYRDE"
 };
 
+const app = initializeApp(config)
+const auth = getAuth(app)
+export {auth}
 
-// Initialize Firebase
-class Firebase {
-    constructor() {
-        initializeApp(config);
-        this.auth = getAuth();
-        this.db = getDatabase();
-    }
+const db = getDatabase(app);
+export {db}
 
-    // *** Auth API **
-    doCreateUserWithEmailAndPassword = (email, password) => 
-        createUserWithEmailAndPassword(this.auth, email, password);
 
-    doSignInWithEmailAndPassword = (email, password) => 
-        signInWithEmailAndPassword(this.auth, email, password);
-
-    doSignOut = () => signOut(this.auth);
-
-    userRef = uid => ref(this.db, `users/${uid}`);
-    key = (path) => push(child(this.db, path)).key;
-
-} 
-
-export default Firebase;

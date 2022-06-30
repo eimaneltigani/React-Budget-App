@@ -2,20 +2,20 @@ div label {
     display: block;
 }
 
-form {
+.form {
     display: flex;
     align-items: center;
+    justify-content:flex-start;
 }
 
 .income-slider {
     float: left;
-    width: 70%
+    padding-right: 5rem;
+
 }
 
 .income-input {
-    float: right;
-    width: 30%;
-    margin-left: 10px;
+    width: 20%;
 }
 
 .income-input label {

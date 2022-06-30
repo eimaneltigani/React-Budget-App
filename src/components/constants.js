@@ -42,3 +42,5 @@ export const defaultIncome = [
         "income": 65000
     }
 ]
+
+export const Categeries = ['Wants', 'Needs', 'Savings', 'Remaining'];

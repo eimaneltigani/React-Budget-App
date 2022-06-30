@@ -1,4 +1,4 @@
-import { defaultExpenses, defaultIncome } from "../components/defaultExpenses";
+import { defaultExpenses, defaultIncome } from "../components/constants";
 import { recieveIncome } from "../Redux/store/incomeSlice";
 import { recieveExpenses } from "../Redux/store/expensesSlice";
 import { onValue } from "@firebase/database";

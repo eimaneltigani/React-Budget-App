@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout, selectUser } from '../Redux/store/userSlice';
-import { auth } from '../Firebase/firebase';
+import { auth } from './Firebase/firebase';
 import { onAuthStateChanged } from '@firebase/auth';
 
 import Dashboard from './Dashboard';
 import Login from './Login';
+import { useAuthValue } from './Firebase/context';
+
 
 function Authentication() {
-    const user = useSelector(selectUser);
+    const user = useAuthValue();
     const dispatch = useDispatch();
   
-    // check at page load if a user is authenticated
+    //check at page load if a user is authenticated
     useEffect(() => {
       onAuthStateChanged(auth, userAuth => {
         if (userAuth) {
@@ -34,14 +36,13 @@ function Authentication() {
 
     return (
         <div>
-            {console.log(user)}
-            {!user ? (
-                <Login />
+            {user.user ? (
+              <div>
+                <h1>Hello, {user.displayName}</h1>
+                <Dashboard />
+              </div>
             ) : (
-                <div>
-                    <h1>Hello, {user.displayName}</h1>
-                    <Dashboard />
-                </div>
+              <Login />
             )}
         </div>
     );

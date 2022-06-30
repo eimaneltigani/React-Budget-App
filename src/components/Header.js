@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout, selectUser } from '../Redux/store/userSlice'
 import { FaSignOutAlt } from 'react-icons/fa';
-import { withFirebase } from './Firebase';
 
 import '../css/Header.css';
+import { signOut } from '@firebase/auth';
+import { auth } from './Firebase/firebase';
+// import { useAuthValue } from './Firebase/authContext';
 
 const NavigationNonAuth = () => {
     return (
@@ -21,20 +23,21 @@ const NavigationNonAuth = () => {
 }
 
 const NavigationAuth = ({ firebase }) => {
-    // const firebase = useFirebase();
     const dispatch = useDispatch();
 
     const logoutOfApp = () => {
         dispatch(logout());
-        firebase.doSignOut();
+        signOut(auth);
     }
 
     return (        
         <div className="sign-out">
-            <button className="header-button" onClick={logoutOfApp}>
-                <FaSignOutAlt />
-                <span>Logout</span>
-            </button>
+            <Link to="/LandingPage">
+                <button className="header-button" onClick={logoutOfApp}>
+                    <FaSignOutAlt />
+                    <span>Logout</span>
+                </button>
+            </Link>
         </div>
     )
 }
@@ -59,4 +62,4 @@ const Header = ({ firebase }) => {
 }
 
 
-export default withFirebase(Header);
+export default Header;

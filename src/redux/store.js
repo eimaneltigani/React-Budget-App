@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import userSlice from './store/userSlice';
 import expensesSlice from './store/expensesSlice';
 import incomeSlice from './store/incomeSlice';
@@ -9,7 +9,7 @@ export const store = configureStore({
       user: userSlice,
       expenses: expensesSlice,
       income: incomeSlice,
-      split: statisticsSlice
+      statistics: statisticsSlice
     },
     middleware: (getDefaultMiddleWare) => getDefaultMiddleWare()
 });

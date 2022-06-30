@@ -6,7 +6,8 @@ import Expenses from './Expenses';
 import { connect } from 'react-redux';
 import { handleFirebaseData } from '../Services/handleData';
 import { withFirebase } from 'react-redux-firebase';
-import withAuthentication from './Session/withAuthentication';
+import Statistics from './Statistics';
+
 
 class LandingPage extends React.Component {
     // componentDidMount() {
@@ -30,22 +31,31 @@ class LandingPage extends React.Component {
                             <p>This virtual budget program keeps you on track of your spending habits. Spend, save, and give toward what's important in life. </p>
                         </div>
                         <div className="user-income">
-                            <h3> Annual Income</h3>
-                            <Income />
+                            <h3>Monthly Income</h3>
+                            <div className="income">
+                                <Income />
+                            </div>
                         </div>
                         <div className="monthly-expenses">
                             <Expenses />
                         </div>
+                        <div className="nextSteps">
+                            <h3>What now?</h3>
+                            <p>Sign up to save your data and set budgeting goals to track against!</p>
+                        </div>
                     </div>
-                
+      
                 <div className="right-col">
                     <div className="expenses-desc">
                         <h2>How do you spend?</h2>
-                        <div className="donut-placeholder"></div>
-                        <div className="report-placeholder"></div>
+                        <div className="donut">
+                            <Statistics />
+                        </div>
+                        {/* <div className="report">
+                            <h3>Breakdown of expenses</h3>
+                        </div> */}
                     </div>
-                    <h3>What now?</h3>
-                    <p>Great job staying within your burdget</p>
+                    
                 </div>
                 </div>
             </div>
@@ -66,4 +76,4 @@ const mapStateToProps = ( state ) => {
     return {authUser: state.user}
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(withFirebase(withAuthentication(LandingPage)));
+export default connect(mapStateToProps,mapDispatchToProps)(withFirebase(LandingPage));

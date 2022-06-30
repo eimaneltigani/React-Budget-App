@@ -21,5 +21,17 @@ body {
     padding-right: 2rem;
 }
 
+.expenses-desc {
+    background-color: rgb(255, 255, 255);
+    border-radius: 0.5rem;
+    box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    color: #3c4043;
+}
+
+.nextSteps {
+    padding-top: 3rem;
+}
 
 

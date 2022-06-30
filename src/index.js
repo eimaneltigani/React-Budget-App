@@ -6,8 +6,6 @@ import App from './components/App';
 import { Provider } from 'react-redux';
 import { store } from './Redux/store';
 
-// Import firebase instance and context
-import Firebase, { FirebaseContext } from './components/Firebase';
 import reportWebVitals from './reportWebVitals';
 
 
@@ -15,9 +13,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-        <FirebaseContext.Provider value={new Firebase()}>
           <App />
-        </FirebaseContext.Provider>
     </Provider>
   </React.StrictMode>
 );
